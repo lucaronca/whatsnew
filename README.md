@@ -11,6 +11,10 @@ sls deploy
 ```
 ## run locally
 ```bash
-./run local <function_name>
+./run_local <function_name>
 ```
 Remember to create a "tmp" folder with correct file to simultate the S3 object fetching if you run the "generator" function
+## run tests
+```bash
+go test ./...
+```
