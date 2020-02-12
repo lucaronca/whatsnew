@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/lucaronca/whatsnew/s3urlconstructor"
+	"github.com/lucaronca/whatsnew/url"
 )
 
 const (
@@ -56,6 +56,6 @@ func (u *s3Uploader) addFileToS3(uploadFileDir string) error {
 		os.Exit(1)
 	}
 
-	fmt.Printf("rss file updated on S3, file url: %v, ETag: %v\n", s3urlconstructor.MakeURL(), *result.ETag)
+	fmt.Printf("rss file updated on S3, file url: %v, ETag: %v\n", url.MakeS3ObjectURL(), *result.ETag)
 	return nil
 }

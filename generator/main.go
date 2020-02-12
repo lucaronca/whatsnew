@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/gorilla/feeds"
 	"github.com/lucaronca/whatsnew/rss"
-	"github.com/lucaronca/whatsnew/s3urlconstructor"
+	"github.com/lucaronca/whatsnew/url"
 )
 
 const (
@@ -55,7 +55,7 @@ func Handler(ctx context.Context) (Response, error) {
 		URL: rss.TargetPageURL,
 		Feed: feeds.Feed{
 			Title:       rssTitle,
-			Link:        &feeds.Link{Href: s3urlconstructor.MakeURL()},
+			Link:        &feeds.Link{Href: url.MakeS3ObjectURL()},
 			Description: rssTitle,
 		},
 		Data: rss.Data{},
