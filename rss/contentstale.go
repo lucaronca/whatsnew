@@ -9,7 +9,7 @@ import (
 
 const (
 	// cronTimeSpan is the cron interval in hours
-	cronTimeSpan = 24
+	cronTimeSpan = 4
 	extraSpan    = 2
 )
 
