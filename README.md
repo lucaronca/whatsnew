@@ -1,5 +1,9 @@
 # Whatsnew
-Golang lambda project to generate, maintain rss feed and sync it to S3
+Golang lambda project to generate, maintain rss feed and sync it to S3 <br>
+Synched Rss feed can then be used to automate push notifications throught bot services like ifttt or automate.io
+
+## Project structure
+![Project_structure](https://whatsnew-bucket.s3.us-east-1.amazonaws.com/structure.png)
 
 ## build
 ```bash
