@@ -22,14 +22,6 @@ import (
 	"github.com/gorilla/feeds"
 )
 
-const (
-	// TargetPageURL is the page that contains rendered news
-	TargetPageURL = "https://www.jw.org/it/cosa-nuovo/"
-	hrefBaseURL   = "https://www.jw.org"
-	videosURL     = "https://data.jw-api.org/mediator/v1/categories/I/LatestVideos?detailed=1&clientType=www"
-	videoBasePath = "https://www.jw.org/it/biblioteca-digitale/video/#it/mediaitems/LatestVideos/"
-)
-
 // Data stores the live rss and the
 // stored rss
 type Data struct {
@@ -106,9 +98,9 @@ func (g Generator) getVideos() videos {
 	}
 
 	start := time.Now()
-	fmt.Printf("start fetching %v\n", videosURL)
+	fmt.Printf("start fetching %v\n", os.Getenv("VIDEOS_URL"))
 
-	response, err := http.Get(videosURL)
+	response, err := http.Get(os.Getenv("VIDEOS_URL"))
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -128,7 +120,7 @@ func (g Generator) getVideos() videos {
 	}
 
 	secs := time.Since(start).Seconds()
-	fmt.Printf("%s request fulfilled, %.2fs elapsed\n", videosURL, secs)
+	fmt.Printf("%s request fulfilled, %.2fs elapsed\n", os.Getenv("VIDEOS_URL"), secs)
 
 	return v.Category.Media
 }
@@ -167,7 +159,7 @@ func (g *Generator) processNewsFeedElement(index int, element *goquery.Selection
 	// See if the href attribute exists on the element
 	href, exists := link.Attr("href")
 	if exists {
-		link := hrefBaseURL + href
+		link := os.Getenv("HREF_BASE_URL") + href
 		g.Feed.Add(&feeds.Item{
 			Title: title,
 			Id:    link,
@@ -182,7 +174,7 @@ func (g *Generator) processNewsFeedElement(index int, element *goquery.Selection
 }
 
 func (g *Generator) processVideoElement(index int, v video) {
-	link := videoBasePath + v.NaturalKey
+	link := os.Getenv("VIDEO_BASE_PATH") + v.NaturalKey
 	g.Feed.Add(&feeds.Item{
 		Title: v.Title,
 		Id:    v.GUID,
@@ -207,8 +199,8 @@ func (g *Generator) GetStored(done chan bool) {
 
 	svc := s3.New(session.New())
 	input := &s3.GetObjectInput{
-		Bucket: aws.String(os.Getenv("s3RssBucketName")),
-		Key:    aws.String(os.Getenv("s3RssFileName")),
+		Bucket: aws.String(os.Getenv("S3_BUCKET")),
+		Key:    aws.String(os.Getenv("RSS_FILENAME")),
 	}
 
 	result, err := svc.GetObject(input)

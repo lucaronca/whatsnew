@@ -14,10 +14,6 @@ import (
 	"github.com/lucaronca/whatsnew/url"
 )
 
-const (
-	rssTitle = "JW.org cosa c'è di nuovo"
-)
-
 // Response is of type APIGatewayProxyResponse since we're leveraging the
 // AWS Lambda Proxy Request functionality (default behavior)
 //
@@ -39,12 +35,12 @@ func makeResponse() Response {
 // Handler is the lambda handler invoked by the `lambda.Start` function call
 func Handler(ctx context.Context) (Response, error) {
 	start := time.Now()
-	fmt.Printf("start fetching %v\n", rss.TargetPageURL)
+	fmt.Printf("start fetching %v\n", os.Getenv("TARGET_PAGE_URL"))
 
 	resp := rss.MakePageRequest()
 
 	secs := time.Since(start).Seconds()
-	fmt.Printf("%s request fulfilled, %.2fs elapsed\n", rss.TargetPageURL, secs)
+	fmt.Printf("%s request fulfilled, %.2fs elapsed\n", os.Getenv("TARGET_PAGE_URL"), secs)
 
 	if rss.IsContentStale(resp) {
 		defer resp.Body.Close()
@@ -52,11 +48,11 @@ func Handler(ctx context.Context) (Response, error) {
 	}
 
 	rg := rss.Generator{
-		URL: rss.TargetPageURL,
+		URL: os.Getenv("TARGET_PAGE_URL"),
 		Feed: feeds.Feed{
-			Title:       rssTitle,
+			Title:       os.Getenv("RSS_TITLE"),
 			Link:        &feeds.Link{Href: url.MakeS3ObjectURL()},
-			Description: rssTitle,
+			Description: os.Getenv("RSS_TITLE"),
 		},
 		Data: rss.Data{},
 	}

@@ -11,10 +11,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/lambda"
 )
 
-const (
-	uploaderLambdaName = "whatsnew-dev-uploader"
-)
-
 // MakeUploadRequest encodes the xml data and sends its contents
 // to the uploader lambda
 func MakeUploadRequest(rg *Generator) error {
@@ -42,7 +38,7 @@ func MakeUploadRequest(rg *Generator) error {
 	client := createClient()
 
 	_, err = client.Invoke(&lambda.InvokeInput{
-		FunctionName: aws.String(uploaderLambdaName),
+		FunctionName: aws.String(os.Getenv("UPLOADER_LAMBDA_NAME")),
 		Payload:      payload,
 	})
 	if err != nil {

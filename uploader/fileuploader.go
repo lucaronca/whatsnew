@@ -20,9 +20,9 @@ func Upload(contents []byte) error {
 	var filePath string
 
 	if os.Getenv("LOCAL") == "true" {
-		filePath = filepath.Join(localFileDir, os.Getenv("s3RssFileName"))
+		filePath = filepath.Join(localFileDir, os.Getenv("RSS_FILENAME"))
 	} else {
-		filePath = filepath.Join(fileDir, os.Getenv("s3RssFileName"))
+		filePath = filepath.Join(fileDir, os.Getenv("RSS_FILENAME"))
 	}
 
 	err := createFile(filePath)

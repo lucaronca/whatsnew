@@ -10,7 +10,7 @@ import (
 func MakePageRequest() *http.Response {
 	client := &http.Client{}
 
-	req, err := http.NewRequest("GET", TargetPageURL, nil)
+	req, err := http.NewRequest("GET", os.Getenv("TARGET_PAGE_URL"), nil)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
