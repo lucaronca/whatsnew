@@ -23,6 +23,9 @@ func MakeUploadRequest(rg *Generator) error {
 	body, err := json.Marshal(map[string]interface{}{
 		"file": contents,
 	})
+	if err != nil {
+		return err
+	}
 
 	// Payload should be a json containing a string serialized "body" property,
 	// "body" contents will be then deserialized and passed to the lambda
