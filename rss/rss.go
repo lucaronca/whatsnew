@@ -177,7 +177,7 @@ func (g *Generator) processVideoElement(index int, v video) {
 	link := os.Getenv("VIDEO_BASE_PATH") + v.NaturalKey
 	g.Feed.Add(&feeds.Item{
 		Title: v.Title,
-		Id:    v.GUID,
+		Id:    link + v.GUID,
 		Link: &feeds.Link{
 			Href: link,
 		},
