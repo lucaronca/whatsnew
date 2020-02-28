@@ -14,8 +14,9 @@ make build
 sls deploy
 ```
 ## run locally
+`Generator` function can be ran locally:
 ```bash
-./run_local <function_name>
+make run-generator-local
 ```
 Remember to create a "tmp" folder with correct file to simultate the S3 object fetching if you run the "generator" function
 ## run tests

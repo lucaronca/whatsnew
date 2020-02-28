@@ -1,4 +1,4 @@
-.PHONY: build clean deploy gomodgen
+.PHONY: build clean deploy gomodgen run-generator-local
 
 build: gomodgen
 	export GO111MODULE=on
@@ -14,3 +14,6 @@ deploy: clean build
 gomodgen:
 	chmod u+x gomod.sh
 	./gomod.sh
+
+run-generator-local:
+	env LOCAL=true go run cmd/generator/main.go cmd/generator/local.go
