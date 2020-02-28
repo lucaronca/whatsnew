@@ -2,8 +2,8 @@
 
 build: gomodgen
 	export GO111MODULE=on
-	env GOOS=linux go build -ldflags="-s -w" -o bin/generator generator/main.go generator/local.go
-	env GOOS=linux go build -ldflags="-s -w" -o bin/uploader uploader/main.go uploader/local.go uploader/fileuploader.go uploader/addfiletos3.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/generator cmd/generator/main.go cmd/generator/local.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/uploader cmd/uploader/main.go cmd/uploader/local.go
 
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock

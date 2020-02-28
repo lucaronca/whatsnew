@@ -10,8 +10,8 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/gorilla/feeds"
-	"github.com/lucaronca/whatsnew/rss"
-	"github.com/lucaronca/whatsnew/url"
+	"github.com/lucaronca/whatsnew/internal/rss"
+	"github.com/lucaronca/whatsnew/internal/url"
 )
 
 // Response is of type APIGatewayProxyResponse since we're leveraging the

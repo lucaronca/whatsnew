@@ -1,13 +1,12 @@
 package main
 
 import (
-	"encoding/base64"
-	"encoding/json"
 	"log"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/lucaronca/whatsnew/internal/filehandler"
 )
 
 // Request is of type APIGatewayProxyRequest since we're leveraging the
@@ -24,21 +23,7 @@ type Response events.APIGatewayProxyResponse
 
 // Handler is the lambda handler invoked by the `lambda.Start` function call
 func Handler(request Request) (Response, error) {
-	type data struct {
-		File string `json:"file"`
-	}
-
-	d := data{}
-
-	json.Unmarshal([]byte(request.Body), &d)
-
-	contents, err := base64.StdEncoding.DecodeString(d.File)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	err = Upload(contents)
+	err := filehandler.HandleFileRequest(request.Body)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

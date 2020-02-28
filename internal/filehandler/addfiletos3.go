@@ -1,4 +1,4 @@
-package main
+package filehandler
 
 import (
 	"bytes"
@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/lucaronca/whatsnew/url"
+	"github.com/lucaronca/whatsnew/internal/url"
 )
 
 const (
@@ -21,6 +21,19 @@ const (
 // a session
 type s3Uploader struct {
 	session *session.Session
+}
+
+func (u *s3Uploader) createSession() error {
+	// Create a single AWS session (we can re use this if we're uploading many files)
+	s3Region := os.Getenv("AWS_REGION")
+
+	s, err := session.NewSession(&aws.Config{Region: aws.String(s3Region)})
+	if err != nil {
+		return err
+	}
+
+	u.session = s
+	return nil
 }
 
 // addFileToS3 will upload a single file to S3, it will require a pre-built aws session
